@@ -1,10 +1,10 @@
 class Product {
-  String id;
-  String name;
-  int quantity;
-  double price;
-  String? image;
-  String? description;
+  final int id;
+  final String name;
+  final int quantity;
+  final double price;
+  final String? image;
+  final String? description;
 
   // Constructor
   Product({
@@ -19,30 +19,30 @@ class Product {
   // Factory fromJson
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      id: json["id"] as String,
-      name: json["name"] as String,
-      quantity: json["quantity"] as int,
-      price: (json["price"] as num).toDouble(),
-      image: json["image"] as String?,
-      description: json["description"] as String?,
+      id: json['id'],
+      name: json['name'],
+      quantity: json['quantity'],
+      price: (json['price'] as num).toDouble(),
+      image: json['image'],
+      description: json['description'],
     );
   }
 
-  // Convert Object -> JSON
+  // toJson
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
-      "name": name,
-      "quantity": quantity,
-      "price": price,
-      "image": image,
-      "description": description,
+      'id': id,
+      'name': name,
+      'quantity': quantity,
+      'price': price,
+      'image': image,
+      'description': description,
     };
   }
 
-  // Copy object
+  // copyTo
   Product copyTo({
-    String? id,
+    int? id,
     String? name,
     int? quantity,
     double? price,
