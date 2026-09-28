@@ -9,7 +9,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      leading: const Icon(Icons.menu),
       centerTitle: true,
       title: const Text('My Flutter App'),
       actions: [
