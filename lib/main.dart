@@ -1,49 +1,44 @@
-import 'data/models/Product.dart'; // Đã sửa lại đường dẫn import theo đúng cấu trúc thư mục
+import 'package:flutter/material.dart';
+import 'UI/Screens/HomPage.dart';
 
 void main() {
-  // 1. Tạo Product bằng constructor
-  Product product = Product(
-    id: 1,
-    name: 'iPhone 17',
-    quantity: 10,
-    price: 25000000.0, // Thêm .0 cho chuẩn kiểu double
-    image: 'iphone.jpg',
-    description: 'Điện thoại Apple',
-  );
+  runApp(const MyApp());
+}
 
-  print('=== PRODUCT ===');
-  print('ID: ${product.id}');
-  print('Name: ${product.name}');
-  print('Quantity: ${product.quantity}');
-  print('Price: ${product.price}');
-  print('Image: ${product.image}');
-  print('Description: ${product.description}');
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
 
-  // 2. Product -> JSON
-  Map json = product.toJson();
+  @override
+  State createState() => _MyAppState();
+}
 
-  print('\n=== TO JSON ===');
-  print(json);
+class _MyAppState extends State {
+  bool darkMode = false;
 
-  // 3. JSON -> Product
-  Product productFromJson = Product.fromJson(json);
+  void toggleDarkMode() {
+    setState(() {
+      darkMode = !darkMode;
+    });
+  }
 
-  print('\n=== FROM JSON ===');
-  print(productFromJson.name);
-  print(productFromJson.price);
-
-  // 4. copyTo
-  Product newProduct = product.copyTo(
-    quantity: 20,
-    price: 23000000.0, // Thêm .0 cho chuẩn kiểu double
-  );
-
-  print('\n=== COPY TO ===');
-  print('Product cũ:');
-  print('Quantity: ${product.quantity}');
-  print('Price: ${product.price}');
-
-  print('Product mới:');
-  print('Quantity: ${newProduct.quantity}');
-  print('Price: ${newProduct.price}');
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'My Flutter App',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepPurple,
+          brightness: Brightness.dark,
+        ),
+        useMaterial3: true,
+      ),
+      themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
+      home: HomePage(darkMode: darkMode, onToggleDarkMode: toggleDarkMode),
+    );
+  }
 }

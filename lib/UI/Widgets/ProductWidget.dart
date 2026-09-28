@@ -1,61 +1,89 @@
 import 'package:flutter/material.dart';
-import 'package:slot2/data/models/Product.dart';
+import '../../data/models/Product.dart';
 
 class ProductWidget extends StatelessWidget {
   final Product product;
 
-  const ProductWidget({super.key});
+  const ProductWidget({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 300,
-      height: 400,
+    return Card(
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      elevation: 5,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-
-              flex: 2,
-              child:Stack(
-                children:[
-                  Container(
-                    width:300,
-              child: Image.asset(product.image, fit: BoxFit.fill),)])
-
+          // Ảnh cố định chiều cao
+          SizedBox(
+            width: double.infinity,
+            height: 300,
+            child: product.image != null
+                ? Image.asset(
+              'assets/images/${product.image}',
+              fit: BoxFit.contain,
+              errorBuilder: (context, error, stackTrace) => _imagePlaceholder(),
+            )
+                : _imagePlaceholder(),
           ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: IconButton(
-              color: Color.White,
-              style: ButtonStyle(backgroundColor: WidgetStateProperty),
-            ),
-          )
-          
-          Expanded(
-            flex: 1,
-            child: Card(
-              child: Column(
-                children: [
-                  Expanded(flex:1,child: Text("Name: ${product.name}")),
-
-                  Expanded(
-                    flex: 1,
-                    child: Row(
-                      children: [
-                        Text("Price: "),
-                        Text('Old: ${product.price}', style: TextStyle(color: Colors.blue)),
-                        Text('Sale: ${product.price*0.9}', style: TextStyle(color: Colors.blue)),
-                      ],
-                    ),
+          // Thông tin sản phẩm
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  product.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+                if (product.description != null) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    product.description!,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 12, color: Colors.grey[600]),
                   ),
-                  Expanded(flex: 3,child Schild: Text(textAlign: TextAlign.justify,
-                  ))
                 ],
-              ),
+                const SizedBox(height: 4),
+                Text(
+                  '\$${product.price.toStringAsFixed(2)}',
+                  style: const TextStyle(
+                      fontSize: 13,
+                      color: Colors.green,
+                      fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 8),
+                ElevatedButton(
+                  onPressed: () {
+                    // Xử lý khi nhấn nút
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size.fromHeight(50),
+                  ),
+                  child: const Text('Mua ngay'),
+                ),
+              ],
             ),
-          )
+          ),
         ],
       ),
-    ); // Thêm dấu chấm phẩy (;) kết thúc lệnh return
+    );
+  }
+
+  Widget _imagePlaceholder() {
+    return Container(
+      color: Colors.grey[200],
+      child: const Center(
+        child: Icon(Icons.image_not_supported, size: 36, color: Colors.grey),
+      ),
+    );
   }
 }
